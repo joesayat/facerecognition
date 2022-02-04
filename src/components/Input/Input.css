@@ -1,0 +1,18 @@
+.url-container {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.url-text {
+  font-size: 1.25rem;
+}
+
+.url-btn {
+  transition: all ease .3s;
+  border: 0.0625em solid #CCCCCC;
+}
+
+.url-btn:hover {
+  border: 0.0625em solid #AAAAAA;
+}

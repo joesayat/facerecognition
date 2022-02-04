@@ -1,3 +1,8 @@
+:root {
+  font-size: 18px;
+  color: #111111;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +10,136 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-shadow: inset -12px -8px 40px #46464620;
+  height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  font-size: 1rem;
+  transition: all ease .3s;
+  cursor: pointer;
+}
+
+a:hover {
+  opacity: .5;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: .8em 1.5em;
+  border: none;
+  border-radius: .2em;
+  cursor: pointer;
+  transition: all ease .3s;
+  box-shadow: rgba(7, 65, 210, 0.1) 0em 0.1875em 0.625em;
+  background: linear-gradient(220.55deg, #FFD439 0%, #FF7A00 100%);
+}
+
+button:hover {
+  background-color: #AAAAAA;
+  color: #333333;
+}
+
+input {
+  font-size: 1rem;
+  padding: .8em;
+  border: .0625em solid #CCCCCC;
+  border-radius: .2em;
+  box-shadow: rgba(7, 65, 210, 0.1) 0em 0.1875em 0.625em;
+}
+
+input:focus {
+  outline: none;
+}
+
+legend {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+label {
+  margin-bottom: .6em;
+  text-align: start
+}
+
+.card {
+  margin: 0 auto;
+  border: 1px solid #CCCCCC;
+  border-radius: .2em;
+  padding: 2em 3em;
+  text-align: center;
+  font-size: 1rem;
+  box-shadow: rgba(7, 65, 210, 0.1) 0px 9px 30px;
+}
+
+.card-input {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-btn {
+  margin-top: 1em;
+  width: 100%;
+}
+
+.card-link {
+  display: block;
+  margin-top: .5em;
+}
+
+
+@media only screen and (min-width: 1025px) {
+  .sign-in {
+    width: 25%;
+  }
+
+  .register {
+    width: 25%;
+  }
+
+  .nav-link {
+    margin: 0 4em;
+  }
+  
+  .nav-logo {
+    margin: 0 4em;
+  }
+
+  .image-container img {
+    width: 32em;
+    height: auto;
+  }
+
+  .url-input {
+    width: 30%;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .sign-in {
+    width: 40%;
+  }
+
+  .register {
+    width: 40%;
+  }
+
+  .nav-link {
+    margin: 0 4em;
+  }
+  
+  .nav-logo {
+    margin: 0 4em;
+  }
+
+  .url-input {
+    width: 50%;
+  }
 }

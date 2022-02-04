@@ -1,0 +1,13 @@
+.header {
+  text-align: center;
+}
+
+.header-title {
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.header-text {
+  font-size: 3.2rem;
+  margin-top: 0;
+}
