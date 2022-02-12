@@ -41,9 +41,14 @@ button {
   background: linear-gradient(220.55deg, #FFD439 0%, #FF7A00 100%);
 }
 
-button:hover {
+button:hover:enabled {
   background-color: #AAAAAA;
   color: #333333;
+}
+
+button:disabled {
+  cursor:auto;
+  opacity: .5;
 }
 
 input {
@@ -94,6 +99,9 @@ label {
   margin-top: .5em;
 }
 
+.error {
+  border: 1px solid red;
+}
 
 @media only screen and (min-width: 1025px) {
   .sign-in {

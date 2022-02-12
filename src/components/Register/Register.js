@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 
+
+/**
+ * @class Register
+ * @classdesc Register class for Facerecognition App.
+ * @extends Component
+ */
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -10,18 +16,18 @@ class Register extends Component {
       email: '',
       username: '',
       password: '',
+      _isFirstNameValid: false,
+      _isLastNameValid: false,
+      _isEmailValid: false,
+      _isUsernameValid: false,
+      _isPasswordValid: false,
+      _isFormValid: false
     };
-
-    // bind this
-    this._onEmailChange = this._onEmailChange.bind(this);
-    this._onFirstNameChange = this._onFirstNameChange.bind(this);
-    this._onLastNameChange = this._onLastNameChange.bind(this);
-    this._onPasswordChange = this._onPasswordChange.bind(this);
-    this._onRegisterClick = this._onRegisterClick.bind(this);
-    this._onUsernameChange = this._onUsernameChange.bind(this);
   }
 
   render() {
+    const { _isFormValid } = this.state;
+
     return (
       <div className="card register">
         <legend>Join Now</legend>
@@ -29,19 +35,19 @@ class Register extends Component {
           <div className="card-input first-name">
             <label htmlFor="first-name">First name:</label>
             <input 
-              name="first-name" 
+              name="firstName" 
               type="text" 
               placeholder="First name" 
-              onChange={this._onFirstNameChange}
+              onChange={this._onInputChange}
             />
           </div>
           <div className="card-input last-name">
             <label htmlFor="last-name">Last name:</label>
             <input 
-              name="last-name" 
+              name="lastName" 
               type="text" 
               placeholder="Last name" 
-              onChange={this._onLastNameChange}
+              onChange={this._onInputChange}
             />
           </div>
         </div>
@@ -51,7 +57,7 @@ class Register extends Component {
             name="email" 
             type="email" 
             placeholder="Email" 
-            onChange={this._onEmailChange}
+            onChange={this._onInputChange}
           />
         </div>
         <div className="card-input">
@@ -60,7 +66,7 @@ class Register extends Component {
             name="username" 
             type="text" 
             placeholder="Username"
-            onChange={this._onUsernameChange}
+            onChange={this._onInputChange}
           />
         </div>
         <div className="card-input">
@@ -69,31 +75,92 @@ class Register extends Component {
             name="password" 
             type="password" 
             placeholder="Password"
-            onChange={this._onPasswordChange} 
+            onChange={this._onInputChange} 
           />
         </div>
-        <button className="card-btn" onClick={this._onRegisterClick}>Register</button>
+        <button className="card-btn" onClick={this._onRegisterClick} disabled={!_isFormValid}>Register</button>
       </div>
     )
   }
 
-  _onEmailChange(ev) {
-    this.setState({ email: ev.target.value });
+  /**
+   * Handles flag if form is valid.
+   */
+  _formValidation() {
+    const  { 
+      _isFirstNameValid, 
+      _isLastNameValid, 
+      _isEmailValid, 
+      _isUsernameValid, 
+      _isPasswordValid 
+    } = this.state;
+
+    const _isFormValid = _isFirstNameValid 
+      && _isLastNameValid 
+      && _isEmailValid
+      && _isUsernameValid 
+      && _isPasswordValid;
+   
+    this.setState({ _isFormValid });
   }
 
-  _onFirstNameChange(ev) {
-    this.setState({ firstName: ev.target.value });
+  /**
+   * Handles flag for input validations.
+   * @param {String} fieldName input name
+   * @param {String} value input value
+   */
+  _inputValidation(fieldName, value) {
+    let { 
+      _isFirstNameValid, 
+      _isLastNameValid, 
+      _isEmailValid, 
+      _isUsernameValid, 
+      _isPasswordValid 
+    } = this.state;
+
+    switch(fieldName) {
+      case "firstName":
+        _isFirstNameValid = value.trim().length;
+        break;
+      case "lastName":
+        _isLastNameValid = value.trim().length;
+        break;
+      case "email":
+        _isEmailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        break;
+      case "username":
+        _isUsernameValid = value.trim().length >= 6;
+        break;
+      case "password":
+        _isPasswordValid = value.trim().length >= 8;
+        break;
+      default:
+        break;
+    }
+
+    this.setState({
+      _isFirstNameValid,
+      _isLastNameValid,
+      _isEmailValid,
+      _isUsernameValid,
+      _isPasswordValid
+    }, () => this._formValidation());
   }
 
-  _onLastNameChange(ev) {
-    this.setState({ lastName: ev.target.value });
+  /**
+   * Handles on input change
+   * @param {Object} ev event on input change.
+   */
+  _onInputChange = (ev) => {
+    const { name, value } = ev.target;
+
+    this.setState({ [name]: value }, () => this._inputValidation(name, value));
   }
 
-  _onPasswordChange(ev) {
-    this.setState({ password: ev.target.value });
-  }
-
-  _onRegisterClick() {
+  /**
+   * Fetch request that adds users.
+   */
+  _onRegisterClick = () => {
     const { email, firstName, lastName, password, username } = this.state;
     const { loadUser, onRouteChange } = this.props;
 
@@ -106,7 +173,7 @@ class Register extends Component {
         name: `${firstName} ${lastName}`,
         email,
         username,
-        password,
+        password
       })
     }).then(res => res.json())
       .then(data => {
@@ -114,12 +181,10 @@ class Register extends Component {
           loadUser(data);
           onRouteChange('home');
         }
+      })
+      .catch(err => {
+        console.log(err);
       });
-
-  }
-
-  _onUsernameChange(ev) {
-    this.setState({ username: ev.target.value });
   }
 };
 

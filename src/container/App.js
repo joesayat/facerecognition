@@ -21,22 +21,20 @@ const initialState = {
     name: '',
     email: '',
     entries: 0,
-    joined: '',
+    joined: ''
   }
 };
 
+/**
+ * @class App
+ * @classdesc App class for Facerecognition App.
+ * @extends Component
+ */
 class App extends Component {
   constructor() {
     super();
 
     this.state = initialState;
-
-    // bind this
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.loadUser = this.loadUser.bind(this);
-    this.onImageSubmit = this.onImageSubmit.bind(this);
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onRouteChange = this.onRouteChange.bind(this);
   }
 
   render () {
@@ -55,16 +53,10 @@ class App extends Component {
     );
   }
 
-  _renderSignIn() {
-    return (
-      <SignIn 
-        loadUser={this.loadUser}  
-        handleSignIn={this.handleSignIn} 
-        onRouteChange={this.onRouteChange}
-      />
-    );
-  }
-
+  /**
+   * Renders home page.
+   * @returns {TemplateResult} home page.
+   */
   _renderHome() {
     const { allBoundingBox, imageUrl, user } = this.state;
 
@@ -77,13 +69,35 @@ class App extends Component {
     );
   }
 
+  /**
+   * Renders registration form.
+   * @returns {TemplateResult} registration form.
+   */
   _renderRegistration() {
     return (
       <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
     );
   }
 
-  calculateAllBoundingBox(data) {
+    /**
+   * Renders sign in form.
+   * @returns {TemplateResult} sign in form.
+   */
+  _renderSignIn() {
+    return (
+      <SignIn 
+        loadUser={this.loadUser}  
+        onRouteChange={this.onRouteChange}
+      />
+    );
+  }
+
+  /**
+   * Calculates the bounding box from clarifai API.
+   * @param {Object} data clarifai reponse data.
+   * @returns {Array} bounding box array.
+   */
+  _calculateAllBoundingBox(data) {
     return data.outputs[0].data.regions.map(item => {
       const { 
         top_row, 
@@ -104,18 +118,75 @@ class App extends Component {
     });
   }
 
-  displayAllBoundingBox(box) {
+  /**
+   * Location/s for bounding box.
+   * @param {Array} box bounding box array.
+   */
+  _displayAllBoundingBox(box) {
     this.setState({ allBoundingBox: box });
   }
 
-  handleSignIn() {
+  /**
+   * Fetch request to clarifai API to get bounding box details.
+   */
+  _fetchImageDetect() {
+    const { imageUrl } = this.state;
+
+    fetch('http://localhost:3001/image-detect', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        imageUrl,
+      })
+    })
+      .then(res => res.json())
+      .then(response => {
+        const allBoundingBox = this._calculateAllBoundingBox(response);
+
+        this._displayAllBoundingBox(allBoundingBox);
+        this._fetchImageEntry();
+      })
+      .catch(err => console.log(err));
+  }
+
+  /**
+   * Fetch request to update image entry of user.
+   */
+  _fetchImageEntry() {
+    const { user } = this.state;
+
+    fetch('http://localhost:3001/image-entry', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: user.id,
+      })
+    }).then(res => res.json())
+      .then(data => {
+        this.setState(Object.assign(user, { entries: data }))
+      })
+      .catch(err => console.log(err));
+  }
+
+  /**
+   * Handles flag if user is signed in.
+   */
+  handleSignIn = () => {
     const { isSignedIn } = this.state;
 
     this.setState({ isSignedIn: !isSignedIn });
   }
 
-  loadUser(data) {
-    const { id, name, email, username, password, entries, joined } = data;
+  /**
+   * Loads user details when logged in.
+   * @param {Object} user user details
+   */
+  loadUser = (user) => {
+    const { id, name, email, username, password, entries, joined } = user;
 
     this.setState({
       user : {
@@ -125,52 +196,33 @@ class App extends Component {
         username,
         password,
         entries,
-        joined,
+        joined
       }
     })
   }
 
-  onImageSubmit() {
-    const { input, user } = this.state;
+  /**
+   * Handles image detect button.
+   */
+  onImageSubmit = () => {
+    const { input } = this.state;
 
-    this.setState({ imageUrl: input });
-    fetch('http://localhost:3001/image-detect', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        input,
-      })
-    })
-      .then(res => res.json())
-      .then(response => {
-        console.log(response)
-        const allBoundingBox = this.calculateAllBoundingBox(response);
-
-        fetch('http://localhost:3001/image-entry', {
-          method: 'put',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: user.id,
-          })
-        }).then(res => res.json())
-          .then(data => {
-            this.setState(Object.assign(user, { entries: data }))
-          })
-
-        this.displayAllBoundingBox(allBoundingBox);
-      })
-      .catch(err => console.log(err));
+    this.setState({ imageUrl: input }, () => this._fetchImageDetect());
   }
-
-  onInputChange(ev) {
+ 
+  /**
+   * Handles on input change.
+   * @param {Object} ev event on input change.
+   */
+  onInputChange = (ev) => {
     this.setState({ input: ev.target.value });
   }
 
-  onRouteChange(route) {
+  /**
+   * Handles on route change.
+   * @param {String} route route string.
+   */
+  onRouteChange = (route) => {
     if (route === 'home'){
       this.handleSignIn();
     }
@@ -180,7 +232,7 @@ class App extends Component {
       this.handleSignIn();
     }
 
-    this.setState({ route: route });
+    this.setState({ route });
   }
 };
 
