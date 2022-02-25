@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './SignIn.css';
 
 /**
  * @class SignIn
@@ -23,28 +24,26 @@ class SignIn extends Component {
     const { onRouteChange } = this.props;
 
     return (
-      <div className="sign-in card">
-        <legend>Welcome</legend>
-        <div className="card-input">
-          <label htmlFor="username">Username:</label>
+      <div className="sign-in__card">
+        <h1 className='sign-in__header'>Welcome</h1>
+        <div className="sign-in__form">
           <input 
             name="username" 
             type="text" 
             placeholder="Username"
+            className="sign-in__input"
             onChange={this._onInputChange}
           />
-        </div>
-        <div className="card-input">
-          <label htmlFor="password">Password:</label>
           <input 
             name="password" 
             type="password" 
             placeholder="Password"
+            className="sign-in__input"
             onChange={this._onInputChange}
           />
+          <button className="sign-in__btn" onClick={this._onSigninClick} disabled={!_isFormValid}>Sign In</button>
+          <a className="sign-in__link" onClick={() => onRouteChange('register')}>Register</a>
         </div>
-        <button className="card-btn" onClick={this._onSigninClick} disabled={!_isFormValid}>Sign In</button>
-        <a className="card-link" onClick={() => onRouteChange('register')}>Register</a>
       </div>
     );
   }

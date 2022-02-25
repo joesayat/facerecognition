@@ -1,9 +1,3 @@
-.image-container {
-  display: flex;
-  justify-content: center;
-  padding: 2em;
-}
-
 .absolute {
   position: absolute;
 }
@@ -15,4 +9,21 @@
   flex-wrap: wrap;
   justify-content: center;
   cursor: pointer;
+}
+
+.face-detect__container{
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.face-detect__img {
+  padding: 0.625em;
+  max-width: 500px;
+}
+
+@media only screen and ( max-width: 769px) {
+  .face-detect__img {
+    max-width: 100%;
+  }
 }

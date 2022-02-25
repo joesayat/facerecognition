@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Register.css';
 
 
 /**
@@ -29,56 +30,46 @@ class Register extends Component {
     const { _isFormValid } = this.state;
 
     return (
-      <div className="card register">
-        <legend>Join Now</legend>
-        <div className="card-input__inline">
-          <div className="card-input first-name">
-            <label htmlFor="first-name">First name:</label>
-            <input 
-              name="firstName" 
-              type="text" 
-              placeholder="First name" 
-              onChange={this._onInputChange}
-            />
-          </div>
-          <div className="card-input last-name">
-            <label htmlFor="last-name">Last name:</label>
-            <input 
-              name="lastName" 
-              type="text" 
-              placeholder="Last name" 
-              onChange={this._onInputChange}
-            />
-          </div>
-        </div>
-        <div className="card-input">
-          <label htmlFor="email">Email:</label>
+      <div className="register__card">
+        <h1 className="register__header">Join Now</h1>
+        <div className="register__form">
+          <input 
+            name="firstName" 
+            type="text" 
+            placeholder="First name" 
+            className="register__input"
+            onChange={this._onInputChange}
+          />
+          <input 
+            name="lastName" 
+            type="text" 
+            placeholder="Last name"
+            className="register__input"
+            onChange={this._onInputChange}
+          />
           <input 
             name="email" 
             type="email" 
             placeholder="Email" 
+            className="register__input"
             onChange={this._onInputChange}
           />
-        </div>
-        <div className="card-input">
-          <label htmlFor="username">Username:</label>
           <input 
             name="username" 
             type="text" 
             placeholder="Username"
+            className="register__input"
             onChange={this._onInputChange}
           />
-        </div>
-        <div className="card-input">
-          <label htmlFor="password">Password:</label>
           <input 
             name="password" 
             type="password" 
             placeholder="Password"
+            className="register__input"
             onChange={this._onInputChange} 
           />
+          <button className="register__btn" onClick={this._onRegisterClick} disabled={!_isFormValid}>Register</button>
         </div>
-        <button className="card-btn" onClick={this._onRegisterClick} disabled={!_isFormValid}>Register</button>
       </div>
     )
   }

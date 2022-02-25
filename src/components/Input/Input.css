@@ -1,18 +1,32 @@
-.url-container {
-  width: 100%;
-  margin: 0 auto;
+.url__btn {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.url__container {
+  font-size: 1rem;
   text-align: center;
 }
 
-.url-text {
-  font-size: 1.25rem;
+.url__content {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+  padding: 0 0.625em;
 }
 
-.url-btn {
-  transition: all ease .3s;
-  border: 0.0625em solid #CCCCCC;
+.url__input {
+  width: 50%;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
-.url-btn:hover {
-  border: 0.0625em solid #AAAAAA;
+.url__text {
+  padding: 0 0.625em;
+}
+
+@media only screen and ( max-width: 769px) {
+  .url__input {
+    width: 100%;
+  }
 }

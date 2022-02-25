@@ -3,9 +3,12 @@ import './FaceRecognition.css';
 
 const FaceRecognition = ({ allBoundingBox, imageUrl }) => {
   return (
-    <div className="image-container">
+    <div className="face-detect__container">
       <div className="absolute">
-        <img id="image" src={imageUrl} alt=""/>
+        <img 
+          id="image" 
+          className="face-detect__img"
+          src={imageUrl} alt=""/>
         {
           allBoundingBox.map(box => {
             return (

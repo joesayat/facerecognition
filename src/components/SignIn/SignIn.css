@@ -1,0 +1,40 @@
+.sign-in__card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2em 0.625em;
+  font-size: 1rem;
+  border: 1px solid #CCCCCC;
+  border-radius: .2em;
+}
+
+.sign-in__form {
+  max-width: 300px;
+  margin: 1em auto 0;
+  text-align: center;
+}
+
+.sign-in__header {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.sign-in__btn,
+.sign-in__input {
+  width: 100%;
+  margin-bottom: 0.3125em;
+}
+
+.sign-in__input:last-of-type {
+  margin-bottom: 1em;
+}
+
+@media only screen and ( max-width: 769px) {
+  .sign-in__card {
+    max-width: 100%;
+    margin: 0 0.625em;
+  }
+
+  .sign-in__form {
+    max-width: 100%;
+  }
+}

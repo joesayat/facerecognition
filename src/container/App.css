@@ -1,0 +1,42 @@
+
+button {
+  background: linear-gradient(220.55deg, #FFD439 0%, #FF7A00 100%);
+}
+
+a,
+button {
+  color: #777777;
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+a:hover,
+button:hover {
+  color: #111111;
+}
+
+button:disabled {
+  color: #777777;
+  cursor: default;
+  background: #F4F4F4; 
+}
+
+button,
+input{
+  padding: 0.625rem 0.9375rem;
+  font-size: 1rem;
+  border: .0625em solid #CCCCCC;
+  border-radius: .2em;
+}
+
+input {
+  background-color: #F4F4F4;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: #AAAAAA;
+}
